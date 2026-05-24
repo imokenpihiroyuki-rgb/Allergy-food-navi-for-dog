@@ -130,7 +130,7 @@ final class Frontend
             $maker = self::maker_label((int) $post_id);
             $main_protein = (string) ACF::get_field('main_protein', $post_id, '');
             $primary_url = self::primary_url((int) $post_id);
-            $primary_rel = $primary_url === get_permalink($post_id) ? 'noopener' : 'nofollow sponsored noopener';
+            $primary_rel = 'noopener';
             $thumb_html = get_the_post_thumbnail($post_id, 'medium_large', [
                 'class' => 'rf-card__thumb',
                 'loading' => 'lazy',
@@ -184,11 +184,6 @@ final class Frontend
 
     private static function primary_url(int $post_id): string
     {
-        $product_url = Utils::normalize_url(ACF::get_field('product_url', $post_id, ''));
-        if ($product_url !== '') {
-            return $product_url;
-        }
-
         return (string) get_permalink($post_id);
     }
 
