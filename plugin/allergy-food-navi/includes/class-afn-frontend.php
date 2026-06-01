@@ -96,7 +96,7 @@ final class Frontend
             $title = get_the_title();
             $main_protein = (string) ACF::get_field('main_protein', $post_id, '');
             echo '<tr>';
-            echo '<td>' . esc_html($title) . '</td>';
+            echo '<td>' . self::food_detail_link((int) $post_id, $title) . '</td>';
             echo '<td>' . esc_html(self::maker_label((int) $post_id)) . '</td>';
             echo '<td>' . esc_html($main_protein !== '' ? $main_protein : '-') . '</td>';
             echo '</tr>';
@@ -113,7 +113,7 @@ final class Frontend
             $query->the_post();
             $post_id = get_the_ID();
             $title = get_the_title();
-            echo '<li>・' . esc_html($title . '（' . self::maker_label((int) $post_id) . '）') . '</li>';
+            echo '<li>' . self::food_detail_link((int) $post_id, $title) . '（' . esc_html(self::maker_label((int) $post_id)) . '）</li>';
         }
 
         echo '</ul>';
@@ -185,6 +185,15 @@ final class Frontend
     private static function primary_url(int $post_id): string
     {
         return (string) get_permalink($post_id);
+    }
+
+    private static function food_detail_link(int $post_id, string $title): string
+    {
+        return sprintf(
+            '<a href="%s" class="allergy-food-navi-food-link">%s</a>',
+            esc_url(get_permalink($post_id)),
+            esc_html($title)
+        );
     }
 
     private static function normalize_view(string $view): string
